@@ -41,8 +41,31 @@ function retrieveName(e) {
     fetch(`http://Localhost:5000/${name}`)
     .then((res) => res.json())
     .then((data) => {
-        document.getElementById('output').innerHTML = `<li class="list-group-item">Name : ${data.name} Genre : ${data.genre} Description : ${data.description} Price : ${data.price}</li>`
+        document.getElementById('output').innerHTML = '';
+
+        // Create a card for the retrieved item
+        const cardHTML = `
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">${data.data}</h5>
+                        <p class="card-text">
+                            <strong>Genre:</strong> ${data.genre} <br>
+                            <strong>Description:</strong> ${data.description} <br>
+                            <strong>Price:</strong> ${data.price}
+                        </p>
+                        <button class="btn btn-primary" onclick="updateItem('${data.data}')">Update</button>
+                        <button class="btn btn-danger" onclick="deleteItem('${data.data}')">Delete</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('output').innerHTML += cardHTML; // Append the card HTML
     })
+    .catch((error) => {
+        console.error('Error fetching item:', error);
+    });
 }
 
 
