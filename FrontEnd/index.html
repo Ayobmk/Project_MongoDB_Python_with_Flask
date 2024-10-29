@@ -17,7 +17,7 @@
     </nav>
     
     <br>
-    <div class="container">
+    <div class="container" style="margin: auto 2%;">
         <a class="btn btn-dark" data-bs-toggle="collapse" href="#collapseAddData" role="button" aria-expanded="false" aria-controls="collapseAddData">
             Add New Product
         </a>
@@ -41,15 +41,20 @@
     <br>
     <hr>
     <div class="container">
-        <form id="formData" class="form-group">
-            <input type="text" id="name" class="form-control" placeholder="Enter name" required>
-            <input type="submit" class="btn btn-dark" value="Search"/>
+        <form id="formData" class="nav nav-pills">
+            <input type="text" id="name" class="nav-item" placeholder="Enter name" style="width: 50%; margin: 0 0 0 auto ;" required>
+            <input type="submit" class="btn btn-dark" style="margin-right: 20%;" value="Search"/>
         </form> 
         <br>
         <ul class="list-group" id="output"></ul>
     </div>
 
     <br>
+    <hr>
+
+    <div class="container" style="margin: auto 2%;">
+    <h2>All Items</h2>
+    </div>
 
     <script src="./script.js"></script>
 </body>
