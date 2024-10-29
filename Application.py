@@ -1,9 +1,12 @@
-from flask import Flask, jsonify, request, redirect, url_for
+from flask import Flask, jsonify, request, redirect
+from flask.helpers import url_for
 from flask_pymongo import PyMongo
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/catalogue'
-
+app.config['CORS_HEADERS'] = 'Content-Type'
 mongo = PyMongo(app)
 
 # Function to retrieve all the data from the database
@@ -22,6 +25,7 @@ def retrieveAll():
 
 # Function to retrieve data from the database based on the name
 @app.route('/<name>', methods = ['GET'])
+@cross_origin()
 def retrieveFromName(name):
     current_catalogue = mongo.db.catalogue
     data = current_catalogue.find_one({'name': name})
