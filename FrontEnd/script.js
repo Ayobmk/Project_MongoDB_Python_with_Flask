@@ -10,16 +10,28 @@ window.onload = function() {
             allItemsOutput.innerHTML = ''; // Clear any existing content
             data.forEach(item => {
                 allItemsOutput.innerHTML += `
-                    <li class="list-group-item">
-                        Name: ${item.name} | Genre: ${item.genre} | Description: ${item.description} | Price: ${item.price}
-                    </li>`;
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text">
+                                    <strong>Genre:</strong> ${item.genre} <br>
+                                    <strong>Description:</strong> ${item.description} <br>
+                                    <strong>Price:</strong> ${item.price}
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary" onclick="updateItem('${item.name}')">Update</button>
+                                    <button class="btn btn-danger" onclick="deleteItem('${item.name}')">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
             });
         })
         .catch((error) => {
             console.error('Error fetching items:', error);
         });
 };
-
 // function to retrieve data from the database
 function retrieveName(e) {
     e.preventDefault();
@@ -58,5 +70,48 @@ function AddData(e) {
         })
     })
     .then((Response) => Response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+        console.log(data);
+        // Reload the page only after the record has been added
+        window.location.reload();
+    })
+    .catch((error) => {
+        console.error('Error adding data:', error);
+    });
+}
+
+
+// Function to delete item
+function deleteItem(name) {
+    fetch(`http://localhost:5000/deleteData/${name}`, {
+        method: 'DELETE'
+    })
+    .then(() => {
+        console.log(`Deleted item: ${name}`);
+        window.location.reload(); // Reload to reflect changes
+    })
+    .catch((error) => {
+        console.error('Error deleting item:', error);
+    });
+}
+
+// Function to update item
+function updateItem(name) {
+    const updatedName = prompt("Enter the new name:", name);
+    if (updatedName && updatedName !== name) {
+        fetch(`http://localhost:5000/updateData/${name}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: updatedName })
+        })
+        .then(() => {
+            console.log(`Updated item: ${name} to ${updatedName}`);
+            window.location.reload(); // Reload to reflect changes
+        })
+        .catch((error) => {
+            console.error('Error updating item:', error);
+        });
+    }
 }

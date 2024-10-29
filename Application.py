@@ -19,7 +19,7 @@ def retrieveAll():
             'name': i['name'], 
             'genre' : i['genre'], 
             'description': i['description'], 
-            'price' : ['price']
+            'price' : i['price']
         })
     return jsonify(holder)
 
