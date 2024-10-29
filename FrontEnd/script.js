@@ -1,5 +1,26 @@
+
 document.getElementById('formData').addEventListener('submit', retrieveName); 
 
+// function to retrieve all items when the page loads
+window.onload = function() {
+    fetch('http://localhost:5000/')
+        .then((response) => response.json())
+        .then((data) => {
+            const allItemsOutput = document.getElementById('allItemsOutput');
+            allItemsOutput.innerHTML = ''; // Clear any existing content
+            data.forEach(item => {
+                allItemsOutput.innerHTML += `
+                    <li class="list-group-item">
+                        Name: ${item.name} | Genre: ${item.genre} | Description: ${item.description} | Price: ${item.price}
+                    </li>`;
+            });
+        })
+        .catch((error) => {
+            console.error('Error fetching items:', error);
+        });
+};
+
+// function to retrieve data from the database
 function retrieveName(e) {
     e.preventDefault();
     
@@ -12,6 +33,8 @@ function retrieveName(e) {
     })
 }
 
+
+// function to add data to the database
 document.getElementById('AddData').addEventListener('submit', AddData);
 
 function AddData(e) {
