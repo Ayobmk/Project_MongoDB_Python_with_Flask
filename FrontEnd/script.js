@@ -120,21 +120,22 @@ function deleteItem(name) {
 
 // Function to update item
 function updateItem(name) {
-    const updatedName = prompt("Enter the new name:", name);
-    if (updatedName && updatedName !== name) {
-        fetch(`http://localhost:5000/updateData/${name}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: updatedName })
-        })
-        .then(() => {
-            console.log(`Updated item: ${name} to ${updatedName}`);
-            window.location.reload(); // Reload to reflect changes
-        })
-        .catch((error) => {
-            console.error('Error updating item:', error);
-        });
-    }
+    window.location.href = `update.html?name=${encodeURIComponent(name)}`;
+    // const updatedName = prompt("Enter the new name:", name);
+    // if (updatedName && updatedName !== name) {
+    //     fetch(`http://localhost:5000/updateData/${name}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ name: updatedName })
+    //     })
+    //     .then(() => {
+    //         console.log(`Updated item: ${name} to ${updatedName}`);
+    //         window.location.reload(); // Reload to reflect changes
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error updating item:', error);
+    //     });
+    // }
 }
