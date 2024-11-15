@@ -19,7 +19,7 @@ def retrieveAll():
             'name': i['name'], 
             'genre' : i['genre'], 
             'description': i['description'], 
-            'price' : ['price']
+            'price' : i['price']
         })
     return jsonify(holder)
 
@@ -68,8 +68,17 @@ def deleteData(name):
 @app.route('/updateData/<name>', methods = ['PUT'])
 def updateData(name):
     current_catalogue = mongo.db.catalogue
-    updatedName = request.json['name']
-    current_catalogue.update_one({'name': name}, {"$set": {'name': updatedName}})
+    updated_data = request.json
+    update_fields = {}
+    if 'name' in updated_data:
+        update_fields['name'] = updated_data['name']
+    if 'description' in updated_data:
+        update_fields['description'] = updated_data['description']
+    if 'genre' in updated_data:
+        update_fields['genre'] = updated_data['genre']
+    if 'price' in updated_data:
+        update_fields['price'] = updated_data['price']
+    current_catalogue.update_one({'name': name}, {"$set": update_fields})
     return redirect(url_for('retrieveAll'))
 
 if __name__ == '__main__':
